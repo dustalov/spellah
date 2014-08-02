@@ -15,22 +15,26 @@ router.get('/', function(req, res) {
 router.get('/check', function(req, res) {
   key = 'msngrams|' + req.query.q
 
-  cache.get(key, function (err, value) {
-    if (err || !value) {
+  cache.get(key, function (err, cached) {
+    if (err || !cached) {
       console.log('cache miss "' + req.query.q + '"')
       query = { u: process.env.MICROSOFT_NGRAMS_KEY, p: req.query.q, format: 'json' }
-      request.get({ url: endpoint, qs: query }, function (e, r, probability) {
-        cache.set(key, value = probability);
+      request.get({ url: endpoint, qs: query }, function (e, r, value) {
+        cache.set(key, value);
+        res.format({
+          json: function() {
+            res.send({ jp: JSON.parse(value) });
+          }
+        });
       })
     } else {
-      console.log('cache hit "' + req.query.q + '" => ' + value)
+      console.log('cache hit "' + req.query.q + '" => ' + cached)
+      res.format({
+        json: function() {
+          res.send({ jp: JSON.parse(cached) });
+        }
+      });
     }
-
-    res.format({
-      json: function() {
-        res.send({ jp: parseFloat(value) });
-      }
-    });
   });
 });
 
