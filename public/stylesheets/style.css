@@ -1,8 +1,14 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+.inputArea
+{
+	font-size: 1.1em;
+    font-weight: normal;
+    background: white;
+    border: 0px;
+    font-family: "DDG_ProximaNova","Proxima Nova","Helvetica Neue","Helvetica","Segoe UI","Nimbus Sans L","Liberation Sans","Open Sans",FreeSans,Arial,sans-serif;
 }
 
-a {
-  color: #00B7FF;
+.search
+{
+    background-color: #FFFFFF;
+    border: 1px solid #CCCDC8;
 }

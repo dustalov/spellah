@@ -1,5 +1,19 @@
 <% layout('layout') -%>
+
+<script>
+$(document).ready(function(){
+    init();
+});
+</script>
+
 <div class="title">
   <h1><%= title %></h1>
   <p>It works!</p>
+</div>
+
+<div id="wrapper">
+	<form action="/" method="GET" class="search" id="myform">            
+	<textarea id="demo" cols="50" rows="5" class="inputArea">Lorem ipsum asdasdasdas vulputate</textarea>
+	<input id="getit" type="submit" value="Get it!" tabindex="2" class="search__button  js-search-button" id="search_button_homepage">   
+</form>
 </div>
