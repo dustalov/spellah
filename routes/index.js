@@ -12,26 +12,66 @@ router.get('/', function(req, res) {
   res.render('index', { title: 'Spellah' });
 });
 
+function eachCons(a, size, callback) {
+  if (a.length > size)
+    for (var j = 0; j <= (a.length - size); j++) callback(a.slice(j, j + size))
+  else
+    callback(a)
+}
+
+function mapOf(keys, values) {
+  var map = {}
+  for(var i in keys) map[keys[i]] = values[i]
+  return map
+}
+
+function check(tokens, ngrams) {
+  var levels = new Array(tokens.length)
+  for (var i = 0, len = levels.length; i < len; i++) levels[i] = 0
+
+  var pairNumber = 0
+  eachCons(tokens, 2, function (pair) {
+    token1 = pair[0]; token2 = pair[1]; tokenJoint = pair.join(' ')
+    if (ngrams[token1] + ngrams[token2] > ngrams[tokenJoint]) {
+      levels[pairNumber] += (ngrams[token1] < ngrams[token2]) ? 2 : 1
+      levels[pairNumber + 1] += (ngrams[token1] > ngrams[token2]) ? 2 : 1
+    }
+    pairNumber++
+  })
+
+  return levels
+}
+
 router.get('/check', function(req, res) {
   key = 'msngrams|' + req.query.q
+
+  tokens = req.query.q.split(' ')
+  body = []
+  for (var i = tokens.length; i > 0; i--) {
+    eachCons(tokens, i, function(slice) { body.push(slice.join(' ')) })
+  }
+  console.log(body)
 
   cache.get(key, function (err, cached) {
     if (err || !cached) {
       console.log('cache miss "' + req.query.q + '"')
-      query = { u: process.env.MICROSOFT_NGRAMS_KEY, p: req.query.q, format: 'json' }
-      request.get({ url: endpoint, qs: query }, function (e, r, value) {
-        cache.set(key, value);
+      query = { u: process.env.MICROSOFT_NGRAMS_KEY, format: 'json' }
+
+      request.post({ url: endpoint, qs: query, body: body.join("\n") }, function (e, r, value) {
+        ngrams = mapOf(body, JSON.parse(value))
+        cache.set(key, value)
         res.format({
           json: function() {
-            res.send({ jp: JSON.parse(value) });
+            res.send({ check: check(tokens, ngrams), ngrams: ngrams });
           }
         });
       })
     } else {
       console.log('cache hit "' + req.query.q + '" => ' + cached)
+      ngrams = mapOf(body, JSON.parse(cached))
       res.format({
         json: function() {
-          res.send({ jp: JSON.parse(cached) });
+          res.send({ check: check(tokens, ngrams), ngrams: ngrams });
         }
       });
     }
