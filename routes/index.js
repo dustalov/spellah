@@ -5,14 +5,19 @@ var request = require('request');
 var endpoint = 'http://weblm.research.microsoft.com/rest.svc/bing-body/2013-12/5/jp';
 
 var redis = require('redis');
-var cache = redis.createClient(process.env.REDIS_PORT || 6379, process.env.REDIS_HOST);
-if (typeof process.env.REDIS_KEY) cache.auth(process.env.REDIS_KEY);
-if (typeof process.env.REDIS_DISABLED) cache.get = function(key, callback) { callback(null, null) };
+var cache = {};
 
-cache.on('error', function (er) {
-  console.trace('Redis')
-  console.error(er.stack)
-})
+if (typeof process.env.REDIS_DISABLED) {
+  cache.get = function(key, callback) { callback(null, null) }
+  cache.set = function(key, value) {}
+} else {
+  cache = redis.createClient(process.env.REDIS_PORT || 6379, process.env.REDIS_HOST)
+  if (typeof process.env.REDIS_KEY) cache.auth(process.env.REDIS_KEY)
+
+  cache.on('error', function (er) {
+    console.error(er.stack)
+  })
+}
 
 router.get('/', function(req, res) {
   res.render('index', { title: 'Spellah' });
