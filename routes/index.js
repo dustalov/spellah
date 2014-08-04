@@ -82,4 +82,12 @@ router.get('/check', function(req, res) {
   });
 });
 
+router.get('/env', function(req, res) {
+  res.format({
+    json: function() {
+      res.send(JSON.stringify(process.env))
+    }
+  });
+})
+
 module.exports = router;
