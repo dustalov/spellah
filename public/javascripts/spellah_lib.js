@@ -30,33 +30,7 @@ function highlightWords(wordsArr, totalCheck){
 
         startPos = index + wordsArr[i].length;
     }
-
-
-
-
-
-
-
-
-
-    /*for(var i = 0; i < totalCheck.length; i++){
-        var ar = getIndicesOf(wordsArr[i], inputText, true);
-
-
-        for(var j = 0; j < ar.length; j++){
-
-            var arr = [ar[j], ar[j] + wordsArr[i].length];
-
-            if(totalCheck[i] == 0){
-                corrected.push(arr);
-            } else if(totalCheck[i] == 1){
-                partly.push(arr);
-            } else {
-                wrong.push(arr);
-            }
-        }
-    }*/
-
+    
 
     $('textarea#demo').highlightTextarea({
     ranges: 
@@ -242,6 +216,8 @@ function init(){
 
         $('.container').remove();
         $('.highlightTextarea').contents().unwrap();
+
+        document.getElementById("response").innerHTML = "";
 
         var area = document.getElementById('demo');
         area.value='';
