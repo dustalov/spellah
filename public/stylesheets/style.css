@@ -1,3 +1,5 @@
+textarea, input { outline: none; }
+
 .inputArea
 {
 	font-size: 1.1em;
@@ -11,4 +13,119 @@
 {
     background-color: #FFFFFF;
     border: 1px solid #CCCDC8;
+    padding: 5px 12px 0px 12px;
+    margin-top: 5px;
+}
+
+.containerInner
+{
+	width: 50%;
+    margin: 0 auto;
+    margin-top: 30px;
+}
+.submit-btn
+{
+	text-align:center;
+	margin-top: 20px;
+}
+
+.inputBtn {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    -moz-user-select: none;
+    background-color: #EEEEEE !important;
+    background-image: -moz-linear-gradient(center top , #EEEEEE, #E1E1E1);
+    background-repeat: repeat-x;
+    border-color: #D9D8D8 #CCCBCB #AEAEAE;
+    border-image: none;
+    border-radius: 6px;
+    border-style: solid;
+    border-width: 1px;
+    box-shadow: 0 1px 0 #FFFFFF inset;
+    color: #282828 !important;
+    cursor: pointer;
+    display: inline-block;
+    font-family: arial,sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    height: 26px;
+    line-height: 26px;
+    margin: 0;
+    padding: 0 10px;
+    text-decoration: none;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+    transition-duration: 0.2s;
+    vertical-align: middle;
+}
+
+
+#cmdAuto input {
+    left: -9999px;
+    position: absolute;
+    top: -9999px;
+    visibility: hidden;
+}
+
+.yt-button-group .yt-button:first-child {
+    
+}
+.yt-button-group .yt-button {
+    border-radius: 0;
+    margin-right: -1px;
+}
+
+.yt-button {
+    -moz-user-select: none;
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #CCCCCC;
+    border-collapse: separate;
+    border-radius: 3px;
+    cursor: pointer;
+    display: inline-block;
+    font: 13px/26px Arial,sans-serif;
+    margin: 0;
+    outline: 0 none;
+    padding: 0;
+    position: relative;
+    transition: box-shadow 0.05s ease-out 0s, border-color 0.05s ease-out 0s;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.yt-button_view_togglebox .yt-button__text {
+    color: #777777;
+    font-size: 11px;
+    letter-spacing: 1px;
+    padding: 0 8px 0 24px;
+    text-transform: uppercase;
+}
+.yt-button__text {
+    color: #333333;
+    display: block;
+    padding: 0 8px;
+}
+
+.yt-button_view_togglebox.yt-state_active .yt-button__text {
+    color: #555555;
+}
+
+.yt-button_view_togglebox .yt-button__icon {
+    background-color: #DDDDDD;
+    border: 1px solid #AAAAAA;
+    border-radius: 50%;
+    display: block;
+    height: 8px;
+    left: 7px;
+    position: absolute;
+    top: 8px;
+    width: 8px;
+}
+.yt-button_view_togglebox.yt-state_active .yt-button__icon {
+    background-color: #FFDF4D;
+    border-color: #D0AE0E;
+}
+.yt-button__icon {
+    z-index: 1;
 }

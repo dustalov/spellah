@@ -8,18 +8,54 @@ $(document).ready(function(){
 
 <div class="title">
   <h1><%= title %></h1>
-  <p>It works!</p>
 </div>
+
+
 
 <div id="wrapper">
-	<form action="/" method="GET" class="search" id="myform">            
-	<textarea id="demo" cols="50" rows="5" class="inputArea">Lorem ipsum asdasdasdas vulputate</textarea>
-	<input id="getit" type="submit" value="Get it!" tabindex="2" class="search__button  js-search-button" id="search_button_homepage">   
-</form>
+    <div class="containerInner">
 
-<h3>Result</h3>
-<div id="response">
+        <div class="engines">
+            <span class="yt-button-group">
+            <span id="cmdAuto" class="yt-button yt-button_view_togglebox" title="Use this search engine">
+                <input id="chkAutoDir" type="checkbox">
+                <span class="yt-button__text">YANDEX</span>
+                <span class="yt-button__icon"></span>
+            </span>
+
+            <span id="cmdAuto" class="yt-button yt-button_view_togglebox" title="Use this search engine">
+                <input id="chkAutoDir" type="checkbox">
+                <span class="yt-button__text">GOOGLE</span>
+                <span class="yt-button__icon"></span>
+            </span>
+
+             <span id="cmdAuto" class="yt-button yt-button_view_togglebox" title="Use this search engine">
+                <input id="chkAutoDir" type="checkbox">
+                <span class="yt-button__text">BING</span>
+                <span class="yt-button__icon"></span>
+            </span>
+
+        </span>
+
+         </div>
+
+        <div class="search" id="myform">   
+         <textarea autofocus="autofocus" id="demo" cols="80" rows="5" class="inputArea" placeholder="Type a query for a selected search engine..."></textarea>
+        </div>
+        <div class="submit-btn">
+          <button class="pure-button" href="#" id="getit" style='margin:auto;'>Make an attempt!</button>
+          <button class="pure-button" href="#" id="clearBtn" style='margin:auto;'>Clear</button>
+        </div>
+
+
+            <h3>Result</h3>
+			<div id="response"></div>
+
+    </div>
+
 
 </div>
 
-</div>
+
+
+
