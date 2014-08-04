@@ -56,8 +56,6 @@ function check(tokens, ngrams) {
     }
   }
 
-  console.log([tokens, ngrams, levels])
-
   return levels
 }
 
