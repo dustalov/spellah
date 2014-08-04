@@ -7,12 +7,12 @@ var endpoint = 'http://weblm.research.microsoft.com/rest.svc/bing-body/2013-12/5
 var redis = require('redis');
 var cache = {};
 
-if (typeof process.env.REDIS_DISABLED) {
+if (!!process.env.REDIS_DISABLED) {
   cache.get = function(key, callback) { callback(null, null) }
   cache.set = function(key, value) {}
 } else {
   cache = redis.createClient(process.env.REDIS_PORT || 6379, process.env.REDIS_HOST)
-  if (typeof process.env.REDIS_KEY) cache.auth(process.env.REDIS_KEY)
+  if (!!process.env.REDIS_KEY) cache.auth(process.env.REDIS_KEY)
 
   cache.on('error', function (er) {
     console.error(er.stack)
