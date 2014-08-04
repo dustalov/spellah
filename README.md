@@ -1,7 +1,11 @@
 Spellah
 =======
 
-Spellah is a spell checking mashup called written in Node.js and deployed on the Azure cloud. The mashup functionaly is based on n-grams' frequencies obtained from the search engines. When the phrase frequency is high, it is considered as correctly spelled. Otherwise, if the frequency is low and the phrase is potentially misspelled, the system tries to locate the mistake using additional queries for the parts of the phrase.
+Spellah is a cloud-based spell checking mashup: <http://spellah.azurewebsites.net/>.
+
+## Proposal
+
+> Our project—Spellah—is a spell checking mashup based on n-gram statistics obtained from the search engines. When the phrase frequency is high, it is considered as correctly spelled. Otherwise, if the frequency is low and the phrase is potentially misspelled, the system tries to locate and highlight the mistake by employing the joint n-gram probabilities. Our primary data provider is the Microsoft Web N-Gram service, which has been kindly made available for us by Microsoft Research. Spellah is crafted using such modern Web technologies as Node.js and HTML5, and is deployed on Windows Azure utilizing its advanced features as GitHub integration, Redis cache, etc.
 
 ## API
 
@@ -19,11 +23,16 @@ The default API format is JSON. The resulted JSON object contains two properties
 
 The first one is an array with error levels for each consequent token. In the given example the levels are `0` both for words *remember* and *when*, `2` for the word *ya*, and `1` for the word *were*. The higher is number, the more likely is the word to be misspelled. The second property represents n-grams' log-probabilities obtained from the Microsoft Web N-Gram service.
 
-## Availability
+## Configuration
 
-<http://spellah.azurewebsites.net/>
+The following environment variables affect the behavior of Spellah:
 
-## Acknowledgements
+* `REDIS_HOST` is the hostname of the Redis cache,
+* `REDIS_KEY` is the authentication key for it,
+* `REDIS_DISABLED` forbids Spellah to use Redis despite of its configuration,
+* `MICROSOFT_NGRAMS_KEY` is the Microsoft Web N-Gram service API key.
 
-* [Dennis Gannon](http://research.microsoft.com/en-us/people/degannon/), Sergey Berezin, and the school's staff for the fruitful discussions.
+### Acknowledgements
+
+* [Dennis Gannon](http://research.microsoft.com/en-us/people/degannon/), [Sergey Berezin](http://cs.msu.ru/persons/238), and the rest of the school's staff for the fruitful discussions.
 * [Microsoft Web N-Gram Service](http://weblm.research.microsoft.com) team for the provided API key.
