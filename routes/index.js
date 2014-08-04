@@ -38,8 +38,13 @@ function mapOf(keys, values) {
 
 function check(tokens, ngrams) {
   var levels = new Array(tokens.length)
-  for (var i = 0, len = levels.length; i < len; i++) levels[i] = 0
 
+  // initialization & unigram check
+  for (var i = 0, len = levels.length; i < len; i++) {
+    levels[i] = ngrams[tokens[i]] < -10 ? 1 : 0
+  }
+
+  // bigram check
   var pairNumber = 0
   eachCons(tokens, 2, function (pair) {
     token1 = pair[0]; token2 = pair[1]; tokenJoint = pair.join(' ')
