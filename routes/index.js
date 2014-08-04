@@ -48,6 +48,14 @@ function check(tokens, ngrams) {
   return levels
 }
 
+function reply(res, tokens, ngrams) {
+  res.format({
+    json: function() {
+      res.send({ check: check(tokens, ngrams), ngrams: ngrams });
+    }
+  });
+}
+
 router.get('/check', function(req, res) {
   key = 'msngrams|' + req.query.q
 
@@ -64,20 +72,12 @@ router.get('/check', function(req, res) {
       request.post({ url: endpoint, qs: query, body: body.join("\n") }, function (e, r, value) {
         ngrams = mapOf(body, JSON.parse(value))
         cache.set(key, value)
-        res.format({
-          json: function() {
-            res.send({ check: check(tokens, ngrams), ngrams: ngrams });
-          }
-        });
+        reply(res, tokens, ngrams)
       })
     } else {
       console.log('cache hit "' + req.query.q + '" => ' + cached)
       ngrams = mapOf(body, JSON.parse(cached))
-      res.format({
-        json: function() {
-          res.send({ check: check(tokens, ngrams), ngrams: ngrams });
-        }
-      });
+      reply(res, tokens, ngrams)
     }
   });
 });
