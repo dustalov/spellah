@@ -8,6 +8,11 @@ var redis = require('redis');
 var cache = redis.createClient(process.env.REDIS_PORT || 6379, process.env.REDIS_HOST);
 if (typeof process.env.REDIS_KEY) cache.auth(process.env.REDIS_KEY);
 
+cache.on('error', function (er) {
+  console.trace('Redis')
+  console.error(er.stack)
+})
+
 router.get('/', function(req, res) {
   res.render('index', { title: 'Spellah' });
 });
@@ -45,12 +50,10 @@ function check(tokens, ngrams) {
 router.get('/check', function(req, res) {
   key = 'msngrams|' + req.query.q
 
-  tokens = req.query.q.split(' ')
-  body = []
+  tokens = req.query.q.split(' '); body = []
   for (var i = tokens.length; i > 0; i--) {
     eachCons(tokens, i, function(slice) { body.push(slice.join(' ')) })
   }
-  console.log(body)
 
   cache.get(key, function (err, cached) {
     if (err || !cached) {
