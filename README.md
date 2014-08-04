@@ -32,7 +32,7 @@ The following environment variables affect the behavior of Spellah:
 * `REDIS_DISABLED` forbids Spellah to use Redis despite of its configuration,
 * `MICROSOFT_NGRAMS_KEY` is the Microsoft Web N-Gram service API key.
 
-### Acknowledgements
+## Acknowledgements
 
 * [Dennis Gannon](http://research.microsoft.com/en-us/people/degannon/), [Sergey Berezin](http://cs.msu.ru/persons/238), and the rest of the school's staff for the fruitful discussions.
 * [Microsoft Web N-Gram Service](http://weblm.research.microsoft.com) team for the provided API key.
