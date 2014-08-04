@@ -7,9 +7,40 @@ function highlightWords(wordsArr, totalCheck){
     var partly = [];
     var wrong = [];
 
+    var startPos = 0;
+
 
     for(var i = 0; i < totalCheck.length; i++){
-        var ar = getIndicesOf(wordsArr[i], inputText, false);
+
+        var index = inputText.indexOf(wordsArr[i], startPos);
+
+        if(index == -1){
+            return;
+        }
+
+        var arr = [index, index + wordsArr[i].length];
+
+        if(totalCheck[i] == 0){
+                corrected.push(arr);
+            } else if(totalCheck[i] == 1){
+                partly.push(arr);
+            } else {
+                wrong.push(arr);
+        }
+
+        startPos = index + wordsArr[i].length;
+    }
+
+
+
+
+
+
+
+
+
+    /*for(var i = 0; i < totalCheck.length; i++){
+        var ar = getIndicesOf(wordsArr[i], inputText, true);
 
 
         for(var j = 0; j < ar.length; j++){
@@ -24,12 +55,11 @@ function highlightWords(wordsArr, totalCheck){
                 wrong.push(arr);
             }
         }
-    }
+    }*/
 
 
     $('textarea#demo').highlightTextarea({
     ranges: 
-
         [{
             color: '#00FF00',
             ranges: corrected
@@ -212,28 +242,9 @@ function init(){
 
         $('.container').remove();
         $('.highlightTextarea').contents().unwrap();
-        
+
         var area = document.getElementById('demo');
         area.value='';
         area.focus();
     }, false);
-
-    
-}
-
-function httpGet(theUrl, ngramBlock){
-    //document.write(theUrl);
-    var xmlHttp = null;
-    xmlHttp = new XMLHttpRequest();
-    xmlHttp.open("GET", theUrl, true);
-    xmlHttp.onreadystatechange = function(){handleReadyStateChange(ngramBlock)};
-    xmlHttp.send(null);
-
-    function handleReadyStateChange(block) {
-      if (xmlHttp.readyState == 4) {
-        if (xmlHttp.status == 200) {
-          document.getElementById("response").innerHTML += block + " " + xmlHttp.responseText + "</br >";
-        }
-      }
-    }
 }
