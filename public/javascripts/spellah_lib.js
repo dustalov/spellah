@@ -171,7 +171,7 @@ function init(){
                 document.getElementById("response").innerHTML += JSON.stringify(msg) + "</br >";
             return true
             },
-          cache: true
+          cache: false
             /* AJAX settings */
         }));
     }
