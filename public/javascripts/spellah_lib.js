@@ -65,11 +65,13 @@ function getIndicesOf(searchStr, str, caseSensitive) {
 
 
 function getWords(text){
+    text = text.replace( /\n/g, " " );
+    text = text.replace(/-/g,' ');
     return text.split(/[ ,]+/).filter(Boolean);
 }
 
 function getWordsByPunctuation(text){
-    return text.split(/[!.?,;:'"-]/).filter(Boolean);
+    return text.split(/[!.?,;:"]/).filter(Boolean);
 }
 
 function getNGramsNew(inputText){
@@ -123,6 +125,63 @@ function getNGramsNew(inputText){
     return data;
 }
 
+function countTotalCheck(inputText, responseData){
+
+    var words = getWords(inputText); //общее количество слов
+    var totalCheck = Array.apply(null, new Array(words.length)).map(Number.prototype.valueOf,0);
+    var step = 1; 
+
+
+
+    var wordsSequencePunctuation = getWordsByPunctuation(inputText);
+
+
+    var beginFromCheck = 0; //запоминаем позицию
+    var beginFromPos = 0;
+
+    var countNumberOfWords = 0;
+
+    for(var k = 0; k < wordsSequencePunctuation.length; k++) {
+       
+       var phrase = wordsSequencePunctuation[k];
+
+        var wordsSequence = getWords(phrase);
+
+
+        countNumberOfWords += wordsSequence.length;
+
+
+        var j = beginFromPos;
+        var n = beginFromPos;
+
+        for(var t = beginFromCheck; t < responseData.length; t++){
+
+            var check = responseData[t];
+
+            if(k < wordsSequencePunctuation.length - 1 && 
+                    check.length + n > countNumberOfWords) {
+
+                beginFromCheck = t;//запоминаем
+                beginFromPos = countNumberOfWords;
+                break;
+            }
+            
+            for(var i = 0; i < check.length; i++) { 
+
+                if((i + j) < totalCheck.length && check[i] > totalCheck[i + j]){
+                    totalCheck[i + j] = check[i];
+                }
+            }
+
+            j += step;
+            n += step;
+        }
+    }
+
+    return totalCheck;
+}
+
+
 
 function getNGrams(inputText){
 
@@ -173,6 +232,9 @@ function getNGrams(inputText){
 }
 
 function init(){
+
+    //initDatabase();
+    //var dbItems = selectAll(function() { alert('Success db selection!'); }, function() { alert('Error'); });
 
 
     document.getElementById("demo").focus();
@@ -252,32 +314,8 @@ function init(){
     $.when.apply($, ajaxReqs).then(function() {
         // all requests are complete
 
+        var totalCheck = countTotalCheck(inputText, data);
         var words = getWords(inputText);
-
-
-        var totalCheck = Array.apply(null, new Array(words.length)).map(Number.prototype.valueOf,0);
-
-
-        var step = 1; 
-        var j = 0;
-
-
-        //var id = data.id;
-        //var check = data.check;
-
-        for(var key in data){
-
-            var check = data[key];
-            
-            for(var i = 0; i < check.length; i++){
-                if((i + j) < totalCheck.length && check[i] > totalCheck[i + j]){
-                    totalCheck[i + j] = check[i];
-                }
-            }
-            j += step;
-
-            //alert(totalCheck.toString());
-        }
 
 
         highlightWords(words, totalCheck);
