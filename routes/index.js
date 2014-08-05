@@ -45,15 +45,16 @@ function check(tokens, ngrams) {
   }
 
   // bigram check
-  var pairNumber = 0
-  eachCons(tokens, 2, function (pair) {
-    token1 = pair[0]; token2 = pair[1]; tokenJoint = pair.join(' ')
-    if (ngrams[token1] + ngrams[token2] > ngrams[tokenJoint]) {
-      levels[pairNumber] += (ngrams[token1] < ngrams[token2]) ? 2 : 1
-      levels[pairNumber + 1] += (ngrams[token1] > ngrams[token2]) ? 2 : 1
+  if (levels.length > 1) {
+    for (var i = 0, j = 1, len = levels.length; j < len; i++, j++) {
+      var token1 = tokens[i], token2 = tokens[j]
+      var joint = [token1, token2].join(' ')
+      if (ngrams[token1] + ngrams[token2] > ngrams[joint]) {
+        levels[i] += (ngrams[token1] < ngrams[token2]) ? 2 : 1
+        levels[j] += (ngrams[token1] > ngrams[token2]) ? 2 : 1
+      }
     }
-    pairNumber++
-  })
+  }
 
   return levels
 }
@@ -67,9 +68,11 @@ function reply(res, tokens, ngrams) {
 }
 
 router.get('/check', function(req, res) {
-  key = 'msngrams|' + req.query.q
+  var key = 'msngrams|' + req.query.q
 
-  tokens = req.query.q.split(' '); body = []
+  var tokens = req.query.q.split(' ')
+  var body = []
+
   for (var i = tokens.length; i > 0; i--) {
     eachCons(tokens, i, function(slice) { body.push(slice.join(' ')) })
   }
@@ -77,16 +80,16 @@ router.get('/check', function(req, res) {
   cache.get(key, function (err, cached) {
     if (err || !cached) {
       console.log('cache miss "' + req.query.q + '"')
-      query = { u: process.env.MICROSOFT_NGRAMS_KEY, format: 'json' }
+      var query = { u: process.env.MICROSOFT_NGRAMS_KEY, format: 'json' }
 
       request.post({ url: endpoint, qs: query, body: body.join("\n") }, function (e, r, value) {
-        ngrams = mapOf(body, JSON.parse(value))
+        var ngrams = mapOf(body, JSON.parse(value))
         cache.set(key, value)
         reply(res, tokens, ngrams)
       })
     } else {
       console.log('cache hit "' + req.query.q + '" => ' + cached)
-      ngrams = mapOf(body, JSON.parse(cached))
+      var ngrams = mapOf(body, JSON.parse(cached))
       reply(res, tokens, ngrams)
     }
   });
