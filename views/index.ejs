@@ -6,14 +6,16 @@ $(document).ready(function(){
 });
 </script>
 
-<div class="title">
-  <h1><%= title %></h1>
-</div>
+
 
 
 
 <div id="wrapper">
     <div class="containerInner">
+
+        <div class="title">
+            <h1 style='color: #004573'><%= title %></h1>
+        </div>
 
         <!--<div class="engines">
             <span class="yt-button-group">
@@ -39,10 +41,10 @@ $(document).ready(function(){
 
          </div>-->
 
-        <div class="search" id="myform">   
-         <textarea autofocus="autofocus" id="demo" cols="80" rows="8" class="inputArea" placeholder="Type a query..."></textarea>
+        <div id="myform">   
+         <textarea class="search" autofocus="autofocus" id="demo" cols="80" rows="8" class="inputArea" placeholder="Type a query..."></textarea>
         </div>
-        <div id="spinner">
+        <div id="spinner" style='color: #F0622E'>
             <!--show load info-->
         </div>
         <div class="submit-btn">
@@ -50,8 +52,7 @@ $(document).ready(function(){
           <button class="pure-button" href="#" id="clearBtn" style='margin:auto;'>Clear</button>
         </div>
 
-
-            <h3>Debug information</h3>
+            <h3 style='color: #F0622E'>Debug Information</h3>
 			<div id="response"></div>
 
     </div>
