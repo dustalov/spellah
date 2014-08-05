@@ -257,6 +257,8 @@ function init(){
 
         document.getElementById("demo").focus();
 
+        document.getElementById("spinner").innerHTML = "";
+
     });
 
 
@@ -281,6 +283,8 @@ function init(){
     var data = []; //check array
 
 
+    var ajaxQueriesProcessed = 0;
+    document.getElementById("spinner").innerHTML = "0/" + ngramsArr.length + " processed";
 
 
     var ajaxReqs = [];
@@ -300,6 +304,11 @@ function init(){
             success: function(msg){ 
                 var id = msg.id;
                 data.splice(id,0, msg.check);
+
+                ajaxQueriesProcessed++;
+                document.getElementById("spinner").innerHTML = ajaxQueriesProcessed + "/" + ngramsArr.length + " processed";
+
+
                 //data.push(msg);
                 document.getElementById("response").innerHTML += JSON.stringify(msg) + "</br >";
             return true
@@ -329,6 +338,8 @@ function init(){
     var myEl2 = document.getElementById('clearBtn');
 
     myEl2.addEventListener('click', function() {
+
+        document.getElementById("spinner").innerHTML = "";
 
         $('.container').remove();
         $('.highlightTextarea').contents().unwrap();
