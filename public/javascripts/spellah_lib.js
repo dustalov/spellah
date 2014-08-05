@@ -30,7 +30,8 @@ function highlightWords(wordsArr, totalCheck){
 
         startPos = index + wordsArr[i].length;
     }
-    
+
+
 
     $('textarea#demo').highlightTextarea({
     ranges: 
@@ -65,6 +66,61 @@ function getIndicesOf(searchStr, str, caseSensitive) {
 
 function getWords(text){
     return text.split(/[ ,]+/).filter(Boolean);
+}
+
+function getWordsByPunctuation(text){
+    return text.split(/[!.?,;:'"-]/).filter(Boolean);
+}
+
+function getNGramsNew(inputText){
+
+    if(!inputText){
+        alert('Value is empty');
+        return;
+    }
+
+
+    var ngrams = 4;
+
+
+    var wordsSequencePunctuation = getWordsByPunctuation(inputText);
+
+    var data = [];
+    var id = 0;
+
+    for(var k = 0; k < wordsSequencePunctuation.length; k++) {//phrase in wordsSequencePunctuation){
+       
+       var phrase = wordsSequencePunctuation[k];
+
+        var wordsSequence = getWords(phrase);
+
+        if(wordsSequence.length <= ngrams){
+            data.push(phrase);
+            continue;
+        } 
+
+        //alert(wordsSequence.length);
+
+        for (var i = 0; i < wordsSequence.length; i++) {
+
+            if(i + ngrams > wordsSequence.length){
+                break;
+            }
+
+            var str = "";
+            for(var j = 0; j < ngrams; j++){
+                str = str + " ";
+                str = str.concat(wordsSequence[i + j]);
+            }
+
+            id++;
+            //data.push({ label: id, value: str });
+            //alert(str);
+            data.push(str);
+            str = "";
+        }
+    }
+    return data;
 }
 
 
@@ -150,30 +206,48 @@ function init(){
     var inputText = jQuery("textarea#demo").val();
     
 
-    var ngramsArr = getNGrams(inputText);
+    var ngramsArr = getNGramsNew(inputText);
+
+
+    //var ngramsArr2 = getNGramsNew(inputText);
+
 
     document.getElementById("response").innerHTML = "";
 
+    var count = 0;
 
     var data = []; //check array
+
+
+
+
     var ajaxReqs = [];
     for (var key in ngramsArr) {
 
+        var apiUrl = ("/check?q=" + ngramsArr[key].trim()).trim() + "&id=" + count;
+        //document.getElementById("response").innerHTML += apiUrl + "</br >";
+
         ajaxReqs.push($.ajax({
-            url:  ("/check?q=" + ngramsArr[key].trim()).trim(),
+            url:  apiUrl,
             type: 'GET',
             timeout: 30000,
             error: function(){
+                alert('Something is wrong!');
                 return true;
             },
             success: function(msg){ 
-                data.push(msg.check);
+                var id = msg.id;
+                data.splice(id,0, msg.check);
+                //data.push(msg);
                 document.getElementById("response").innerHTML += JSON.stringify(msg) + "</br >";
             return true
             },
           cache: false
             /* AJAX settings */
         }));
+
+
+        count++;
     }
     $.when.apply($, ajaxReqs).then(function() {
         // all requests are complete
@@ -186,6 +260,10 @@ function init(){
 
         var step = 1; 
         var j = 0;
+
+
+        //var id = data.id;
+        //var check = data.check;
 
         for(var key in data){
 
