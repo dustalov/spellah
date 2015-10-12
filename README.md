@@ -1,7 +1,7 @@
 Spellah
 =======
 
-Spellah is a cloud-based spell checking mashup: <http://spellah.azurewebsites.net/>.
+Spellah is a cloud-based spell checking mashup: <http://spellah.eveel.ru/>.
 
 ## Proposal
 
