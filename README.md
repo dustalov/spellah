@@ -30,9 +30,9 @@ The following environment variables affect the behavior of Spellah:
 * `REDIS_HOST` is the hostname of the Redis cache,
 * `REDIS_KEY` is the authentication key for it,
 * `REDIS_DISABLED` forbids Spellah to use Redis despite of its configuration,
-* `MICROSOFT_NGRAMS_KEY` is the Microsoft Web N-Gram service API key.
+* `PROJECT_OXFORD_WEBLM_KEY` is the Project Oxford WebLM service API key.
 
 ## Acknowledgements
 
 * [Dennis Gannon](http://research.microsoft.com/en-us/people/degannon/), [Sergey Berezin](http://cs.msu.ru/persons/238), and the rest of the school's staff for the fruitful discussions.
-* [Microsoft Web N-Gram Service](http://weblm.research.microsoft.com) team for the provided API key.
+* [Microsoft Web N-Gram Service](http://weblm.research.microsoft.com) team, who has provided an API key for the original version of Spellah.
