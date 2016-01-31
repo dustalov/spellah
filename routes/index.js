@@ -2,7 +2,8 @@ var express = require('express');
 var router = express.Router();
 
 var request = require('request');
-var endpoint = 'http://weblm.research.microsoft.com/rest.svc/bing-body/2013-12/5/jp';
+var endpoint = 'https://api.projectoxford.ai/text/weblm/v1.0/calculateJointProbability?model=body';
+var apikey = process.env.PROJECT_OXFORD_WEBLM_KEY;
 
 var redis = require('redis');
 var cache = {};
@@ -30,9 +31,9 @@ function eachCons(a, size, callback) {
     callback(a)
 }
 
-function mapOf(keys, values) {
+function mapOf(value) {
   var map = {}
-  for(var i in keys) map[keys[i]] = values[i]
+  value.results.forEach(function(pair) { map[pair.words] = pair.probability })
   return map
 }
 
@@ -68,7 +69,7 @@ function reply(req, res, tokens, ngrams) {
 }
 
 router.get('/check', function(req, res) {
-  var key = 'msngrams|' + req.query.q
+  var key = 'weblm|' + req.query.q
 
   var tokens = req.query.q.split(' ')
   var body = []
@@ -80,16 +81,19 @@ router.get('/check', function(req, res) {
   cache.get(key, function (err, cached) {
     if (err || !cached) {
       console.log('cache miss "' + req.query.q + '"')
-      var query = { u: process.env.MICROSOFT_NGRAMS_KEY, format: 'json' }
-
-      request.post({ url: endpoint, qs: query, body: body.join("\n") }, function (e, r, value) {
-        var ngrams = mapOf(body, JSON.parse(value))
+      var headers = {
+        'Content-Type': 'application/json',
+        'Ocp-Apim-Subscription-Key': apikey
+      }
+      var queries = JSON.stringify({queries: body})
+      request.post({ headers: headers, qs: 'model=body', url: endpoint, body: queries }, function (e, r, value) {
+        var ngrams = mapOf(JSON.parse(value))
         cache.set(key, value)
         reply(req, res, tokens, ngrams)
       })
     } else {
       console.log('cache hit "' + req.query.q + '" => ' + cached)
-      var ngrams = mapOf(body, JSON.parse(cached))
+      var ngrams = mapOf(JSON.parse(cached))
       reply(req, res, tokens, ngrams)
     }
   });
