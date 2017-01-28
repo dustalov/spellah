@@ -2,8 +2,8 @@ var express = require('express');
 var router = express.Router();
 
 var request = require('request');
-var endpoint = 'https://api.projectoxford.ai/text/weblm/v1.0/calculateJointProbability?model=body';
-var apikey = process.env.PROJECT_OXFORD_WEBLM_KEY;
+var endpoint = 'https://westus.api.cognitive.microsoft.com/text/weblm/v1.0/calculateJointProbability?model=body';
+var apikey = process.env.SUBSCRIPTION_KEY;
 
 var redis = require('redis');
 var cache = {};

@@ -30,7 +30,7 @@ The following environment variables affect the behavior of Spellah:
 * `REDIS_HOST` is the hostname of the Redis cache,
 * `REDIS_KEY` is the authentication key for it,
 * `REDIS_DISABLED` forbids Spellah to use Redis despite of its configuration,
-* `PROJECT_OXFORD_WEBLM_KEY` is the Project Oxford WebLM service API key.
+* `SUBSCRIPTION_KEY` is the Microsoft [Cognitive Services](https://www.microsoft.com/cognitive-services/en-us/) Web Language Model API key.
 
 ## Acknowledgements
 
