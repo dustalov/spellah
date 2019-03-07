@@ -1,7 +1,9 @@
 Spellah
 =======
 
-Spellah is a cloud-based spell checking mashup: <http://spellah.eveel.ru/>.
+Spellah is a cloud-based spell checking mashup that uses the Microsoft's Web Language Model API. It is developed by Dmitry Ustalov and Igor Lashkov at the [Microsoft Research Summer School](http://web.archive.org/web/20140328010258/http://cloud2014.cs.msu.ru/en) (2014) in Moscow, Russia.
+
+Spellah has been awarded with the [best overall solution](https://www.microsoft.com/en-us/research/blog/summer-school-in-russia-explores-research-in-the-cloud/) award at the hackathon organized during the school. Since the underlying Web Language Model API seems to be not available anymore, this source code is provided only for archival purposes.
 
 ## Proposal
 
@@ -35,4 +37,4 @@ The following environment variables affect the behavior of Spellah:
 ## Acknowledgements
 
 * [Dennis Gannon](http://research.microsoft.com/en-us/people/degannon/), [Sergey Berezin](http://cs.msu.ru/persons/238), and the rest of the school's staff for the fruitful discussions.
-* [Microsoft Web N-Gram Service](http://weblm.research.microsoft.com) team, who has provided an API key for the original version of Spellah.
+* [Microsoft Web N-Gram Service](http://web.archive.org/web/20140721042149/http://weblm.research.microsoft.com/) team, who has provided an API key for the original version of Spellah.
