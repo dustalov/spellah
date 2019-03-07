@@ -5,6 +5,8 @@ Spellah is a cloud-based spell checking mashup that uses the Microsoft's Web Lan
 
 Spellah has been awarded with the [best overall solution](https://www.microsoft.com/en-us/research/blog/summer-school-in-russia-explores-research-in-the-cloud/) award at the hackathon organized during the school. Since the underlying Web Language Model API seems to be not available anymore, this source code is provided only for archival purposes.
 
+![Spellah](docs/image10.png)
+
 ## Proposal
 
 > Our project—Spellah—is a spell checking mashup based on n-gram statistics obtained from the search engines. When the phrase frequency is high, it is considered as correctly spelled. Otherwise, if the frequency is low and the phrase is potentially misspelled, the system tries to locate and highlight the mistake by employing the joint n-gram probabilities. Our primary data provider is the Microsoft Web N-Gram service, which has been kindly made available for us by Microsoft Research. Spellah is crafted using such modern Web technologies as Node.js and HTML5, and is deployed on Windows Azure utilizing its advanced features as GitHub integration, Redis cache, etc.
